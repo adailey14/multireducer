@@ -1,12 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import multireducerBind from './multireducerBind';
 
 function getDisplayName(Comp) {
   return Comp.displayName || Comp.name || 'Component';
 }
 
-export default function connectMultireducer(mapStateToProps, actions = {}) {
+export default function connectMultireducer(mapStateToProps, mapDispatchToProps, ...rest) {
   return DecoratedComponent => {
     class ConnectMultireducer extends Component {
       static displayName = `ConnectMultireducer(${getDisplayName(DecoratedComponent)})`;
@@ -28,14 +27,9 @@ export default function connectMultireducer(mapStateToProps, actions = {}) {
       generateConnectedComponent({multireducerKey}) {
         this.ConnectedComponent =
           connect(
-            state => {
-              const slice = state.multireducer[multireducerKey];
-              if (!slice) {
-                throw new Error(`No state for multireducer key "${multireducerKey}". You initialized multireducer with ${Object.keys(state.multireducer).join(', ')}.`);
-              }
-              return mapStateToProps ? mapStateToProps(slice) : slice;
-            },
-            multireducerBind(actions, multireducerKey)
+            state => mapStateToProps(state, multireducerKey),
+            dispatch => mapDispatchToProps(dispatch, multireducerKey),
+            ...rest
           )(DecoratedComponent);
       }
 
