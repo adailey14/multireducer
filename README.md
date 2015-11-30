@@ -14,7 +14,7 @@ npm install --save multireducer
 
 ## Changes in this adailey version
 
-I created this version of multireducer to solve a few issues with the original, and to provide semantics closer to connect() and bindActionCreators() provided by react-redux and react respectively. The two issues this solves are:
+I created this version of multireducer to solve a few issues with the original, and to provide semantics closer to connect() and bindActionCreators() provided by react-redux and react respectively. The three issues this solves are:
 
 1. You can mount multireducer anywhere in your state tree, and use it more than once.
 2. You can use this with react-thunk middleware (But see below for special care that must be taken in your Action Creators)
