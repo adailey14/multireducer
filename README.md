@@ -122,8 +122,8 @@ ListComponent = connectMultireducer(
 )(ListComponent);
 ```
 
-## Use with `thunk` middleware
-A common redux pattern is to use middleware that allows you to return a function from an action creator. `multireducerBindActionCreators` will not catch these `thunks`, so you will have to take care to pass in the multireducerKey to the action creator, and then wrap the resulting action using `multireducerWrapAction`. Here is an example:
+## Use with 'thunk' middleware
+A common redux pattern is to use middleware that allows you to return a function from an action creator. `multireducerBindActionCreators` will not catch these 'thunks', so you will have to take care to pass in the multireducerKey to the action creator, and then wrap the resulting action using `multireducerWrapAction`. Here is an example:
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
@@ -172,7 +172,7 @@ function add(name, multireducerKey) {
     dispatch(multireducerWrapAction({
       type: ADD,
       name
-    }));
+    }, multireducerKey));
   };
 }
 ```
@@ -191,11 +191,11 @@ Creates a higher order component decorator, much like [`react-redux`](https://gi
 
 ##### -`mapStateToProps : Function`
 
-> Similar to the `mapStateToProps` passed to `react-redux`'s [`connect()`](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options), **_BUT WITH ONE DIFFERENCE_**: The `mapStateToProps` function will receive the multireducerKey prop as a second argument if it was passed in to the component. You can also ignore this second argument, and pass in a hard-coded key here. This function is provided the global state exactly the same way as `connect()`.
+> Similar to the `mapStateToProps` passed to `react-redux`'s [`connect()`](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options). The `mapStateToProps` function will receive the multireducerKey prop as a second argument if it was passed in to the component. You can also ignore this second argument, and pass in a hard-coded key here. This function is provided the global state exactly the same way as `connect()`.
 
 ##### -`mapDispatchToProps : Function`
 
-> Similar to the `mapDispatchToProps` passed to `react-redux`'s [`connect()`](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options), **_BUT WITH ONE DIFFERENCE_**: The `mapDispatchToProps` function will receive the multireducerKey prop as a second argument if it was passed in to the component. You can also ignore this second argument, and pass in a hard-coded key here. This function is provided the global state exactly the same way as `connect()`.
+> Similar to the `mapDispatchToProps` passed to `react-redux`'s [`connect()`](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options). The `mapDispatchToProps` function will receive the multireducerKey prop as a second argument if it was passed in to the component. You can also ignore this second argument, and pass in a hard-coded key here. This function is provided the global state exactly the same way as `connect()`.
 
 ### `multireducerBindActionCreators(actionCreators:Object, multireducerKey:string, dispatch:Function) : Object`
 
