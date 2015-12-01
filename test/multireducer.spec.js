@@ -1,6 +1,6 @@
 import expect from 'expect';
 import multireducer from '../src/multireducer';
-import {multireducerWrapActionCreator} from '../src/multireducerBindActionCreators'
+import {multireducerWrapAction} from '../src/multireducerBindActionCreators'
 import key from '../src/key';
 import counter from './counter';
 import {increment, decrement} from './counter';
@@ -10,13 +10,13 @@ const reducer = multireducer({
   b: counter,
   c: counter
 });
-const incrementA = multireducerWrapActionCreator(increment, 'a')();
-const incrementB = multireducerWrapActionCreator(increment, 'b')();
-const incrementC = multireducerWrapActionCreator(increment, 'c')();
+const incrementA = multireducerWrapAction(increment(), 'a');
+const incrementB = multireducerWrapAction(increment(), 'b');
+const incrementC = multireducerWrapAction(increment(), 'c');
 
-const decrementA = multireducerWrapActionCreator(decrement, 'a')();
-const decrementB = multireducerWrapActionCreator(decrement, 'b')();
-const decrementC = multireducerWrapActionCreator(decrement, 'c')();
+const decrementA = multireducerWrapAction(decrement(), 'a');
+const decrementB = multireducerWrapAction(decrement(), 'b');
+const decrementC = multireducerWrapAction(decrement(), 'c');
 
 describe('multireducer', () => {
   it('should initialize properly', () => {

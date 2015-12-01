@@ -1,4 +1,4 @@
-#multireducer
+#multireducer-adailey14
 
 [![NPM Version](https://img.shields.io/npm/v/multireducer.svg?style=flat-square)](https://www.npmjs.com/package/multireducer)
 [![NPM Downloads](https://img.shields.io/npm/dm/multireducer.svg?style=flat-square)](https://www.npmjs.com/package/multireducer)
@@ -17,7 +17,7 @@ npm install --save multireducer-adailey14
 I created this version of multireducer to solve a few issues with the original, and to provide semantics closer to connect() and bindActionCreators() provided by react-redux and react respectively. The three issues this solves are:
 
 1. You can mount multireducer anywhere in your state tree, and use it more than once.
-2. You can use this with react-thunk middleware (But see below for special care that must be taken in your Action Creators)
+2. You can use this with react-thunk middleware
 3. You don't have to wrap connectMultireducer components to pass in a multireducerKey, you can do it explicitly in the connectMultireducer call.
 
 
@@ -123,60 +123,7 @@ ListComponent = connectMultireducer(
 ```
 
 ## Use with 'thunk' middleware
-A common redux pattern is to use middleware that allows you to return a function from an action creator. `multireducerBindActionCreators` will not catch these 'thunks', so you will have to take care to pass in the multireducerKey to the action creator, and then wrap the resulting action using `multireducerWrapAction`. Here is an example:
-
-```javascript
-import React, {Component, PropTypes} from 'react';
-import {connectMultireducer, multireducerBindActionCreators, multireducerWrapAction} from 'multireducer';
-import {add, remove} from './actions/list';
-
-class ListComponent extends Component {
-  static propTypes = {
-    list: PropTypes.array.isRequired
-  }
-
-  render() {
-    const {add, list, remove, multireducerKey} = this.props;
-    return (
-      <div>
-        <button onClick={() => add('New Item', multireducerKey)}>Add</button>
-        <ul>
-          {list.map((item, index) =>
-            <li key={index}>
-              {item}
-              (<button onClick={() => remove(item, multireducerKey)}>X</button>)
-            </li>)}
-        </ul>
-      </div>
-    );
-  }
-}
-
-// connectMultireducer has the same semantics as redux connect, except each function receives the multiReducer key as a second argument if it is passed in to the component as a prop
-ListComponent = connectMultireducer(
-  (state, key) => ({ list: state.lists[key] }),
-  (dispatch, key) => multireducerBindActionCreators({add, remove}, key, dispatch)
-)(ListComponent);
-
-
-// Your Action Creator for Add (in a separate file)
-const ADD = 'yourapp/list/ADD';
-
-function add(name, multireducerKey) {
-  // return a thunk to accomplish side effects
-  return (getState, dispatch) => {
-    // maybe make some API call
-    // ...
-
-    // Then dispatch your action, wrapping it with the multireducerKey
-    dispatch(multireducerWrapAction({
-      type: ADD,
-      name
-    }, multireducerKey));
-  };
-}
-```
-
+A common redux pattern is to use middleware that allows you to return a function from an action creator. `multireducerBindActionCreators` will now catch these 'thunks' and add the multireducerKey to any actions they dispatch, so you don't have to do anything special.
 
 
 ## API
@@ -203,7 +150,7 @@ Acts much like [`react`](https://github.com/rackt/react)'s [`bindActionCreators(
 
 ### `multireducerWrapAction(action:Object, multireducerKey:string) : Object`
 
-Used to add the multireducerKey directly to an action object. Necessary for working with `thunk` middleware.
+Used to add the multireducerKey directly to an action object. Should only be necessary if you're doing something advanced.
 
 
 

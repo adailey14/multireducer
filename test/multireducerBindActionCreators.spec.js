@@ -15,7 +15,7 @@ const testBoundAction = (action, boundAction, multireducerKey) => {
     });
 };
 
-describe('multireducerWrapActionCreator', () => {
+describe('multireducerBindActionCreators', () => {
   it('should wrap a single action function', () => {
     const multireducerKey = 'foo';
     const actionCreator = () => ({
@@ -23,11 +23,19 @@ describe('multireducerWrapActionCreator', () => {
       dog: 7,
       cat: 'Felix'
     });
-    testBoundAction(actionCreator, multireducerWrapActionCreator(actionCreator, multireducerKey), multireducerKey);
-  });
-});
 
-describe('multireducerWrapActionCreators', () => {
+    const getDispatchedAction = () => {
+      let dispatchedAction = null;
+      const dispatch = (action) => {
+        dispatchedAction = action;
+      }
+      multireducerBindActionCreators(actionCreator, multireducerKey, dispatch)();
+      return dispatchedAction;
+    };
+
+    testBoundAction(actionCreator, getDispatchedAction, multireducerKey);
+  });
+
   it('should bind an object of action functions', () => {
     const multireducerKey = 'bar';
     const actions = {
@@ -42,8 +50,25 @@ describe('multireducerWrapActionCreators', () => {
         name: 'Bobby Tables'
       })
     };
-    const result = multireducerWrapActionCreators(actions, multireducerKey);
-    testBoundAction(actions.a, result.a, multireducerKey);
-    testBoundAction(actions.b, result.b, multireducerKey);
+    const getDispatchedActionA = () => {
+      let dispatchedAction = null;
+      const dispatch = (action) => {
+        dispatchedAction = action;
+      }
+      multireducerBindActionCreators(actions, multireducerKey, dispatch).a();
+      return dispatchedAction;
+    };
+
+    const getDispatchedActionB = () => {
+      let dispatchedAction = null;
+      const dispatch = (action) => {
+        dispatchedAction = action;
+      }
+      multireducerBindActionCreators(actions, multireducerKey, dispatch).b();
+      return dispatchedAction;
+    };
+
+    testBoundAction(actions.a, getDispatchedActionA, multireducerKey);
+    testBoundAction(actions.b, getDispatchedActionB, multireducerKey);
   });
 });
