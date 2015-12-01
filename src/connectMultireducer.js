@@ -34,9 +34,8 @@ export default function connectMultireducer(mapStateToProps, mapDispatchToProps,
       }
 
       render() {
-        const {multireducerKey, ...props} = this.props;
         const {ConnectedComponent} = this;
-        return <ConnectedComponent {...props}/>;
+        return <ConnectedComponent {...this.props}/>;
       }
     }
     return ConnectMultireducer;
