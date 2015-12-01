@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 export function multireducerWrapAction(action, multireducerKey) {
   return {
     ...action,
-    type: (action.type || "") + key + multireducerKey
+    type: (action.type || '') + key + multireducerKey
   };
 }
 
