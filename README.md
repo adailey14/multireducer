@@ -9,7 +9,7 @@
 ## Installation
 
 ```
-npm install --save multireducer
+npm install --save multireducer-adailey14
 ```
 
 ## Changes in this adailey version

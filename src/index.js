@@ -1,10 +1,10 @@
 import multireducer from './multireducer';
 import connectMultireducer from './connectMultireducer';
-import multireducerBindActionCreators from './multireducerBindActionCreators';
+import multireducerBindActionCreators, {multireducerWrapAction} from './multireducerBindActionCreators';
 
 export {
   connectMultireducer,
-  multireducerBindActionCreators
+  multireducerBindActionCreators,
   multireducerWrapAction
 };
 
