@@ -10,7 +10,6 @@ export function multireducerWrapAction(action, multireducerKey) {
 
 export default function multireducerBindActionCreators(actionCreators, multireducerKey, dispatch) {
   const wrappingDispatch = (action) => {
-    // hmm we could wrap all actions (which could be returning a function) in an object with the key
     if (typeof action === 'function') {
       const wrappedThunk = (ignoredDispatch, getState) => action(wrappingDispatch, getState);
       dispatch(wrappedThunk);
