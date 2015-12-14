@@ -2,6 +2,12 @@ import key from './key';
 import {bindActionCreators} from 'redux';
 
 export function multireducerWrapAction(action, multireducerKey) {
+  if (action.types) {
+    return {
+      ...action,
+      types: action.types.map(type => type + key + multireducerKey)
+    };
+  }
   return {
     ...action,
     type: (action.type || '') + key + multireducerKey
