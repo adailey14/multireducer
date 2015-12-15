@@ -18,9 +18,9 @@ export default function multireducerBindActionCreators(actionCreators, multiredu
   const wrappingDispatch = (action) => {
     if (typeof action === 'function') {
       const wrappedThunk = (ignoredDispatch, getState) => action(wrappingDispatch, getState);
-      dispatch(wrappedThunk);
+      return dispatch(wrappedThunk);
     } else if (typeof action === 'object') {
-      dispatch(multireducerWrapAction(action, multireducerKey));
+      return dispatch(multireducerWrapAction(action, multireducerKey));
     }
   };
 
